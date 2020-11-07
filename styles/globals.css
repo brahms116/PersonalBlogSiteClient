@@ -6,3 +6,46 @@ html{
   font-family: 'Lato', sans-serif;
 }
 
+h1{
+  font-size: 4rem;
+  font-weight: 300;
+}
+
+h2{
+  font-size: 3rem;
+  font-weight: 300;
+}
+
+h3{
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+h4{
+  font-size: 1.75rem;
+  font-weight:300;
+}
+
+h5{
+  font-size:1.5rem;
+  font-weight:300;
+}
+
+h6{
+  font-size:1.25rem;
+  font-weight:300;
+
+}
+
+sub{
+  font-size: 1.125rem;
+  letter-spacing: 0.2em;
+  font-weight: 300;
+}
+
+p{
+  font-size: 1.125rem;
+  line-height: 205%;
+}
+
+

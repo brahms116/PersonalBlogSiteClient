@@ -1,15 +1,23 @@
-import Head from 'next/head'
 import Layout from '../layout'
-
+import styles from "../styles/index.module.css"
 
 export default function Home() {
   return (
     <Layout>
+      <nav>
+        
+      </nav>
+      <div className="landing">
+        
+      </div>
+      <style jsx>{`
+        .landing{
+          width: 100vw;
+          height: 100vh;
+          background: #2c2c2c;
+        }
       
-        <h1>Heading 1</h1>
-        <sub>This is a subtitle</sub>
-        <p>This is a paragraph of random junk its really awful styling here<br/>This is another line? </p>
-      
+      `}</style>
     </Layout>
   )
 }
