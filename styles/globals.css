@@ -1,9 +1,15 @@
 *{
   padding:0;
   margin:0;
+  box-sizing: border-box;
 }
+
+
+
 html{
   font-family: 'Lato', sans-serif;
+  font-weight:300;
+  font-size:16px;  
 }
 
 h1{
@@ -49,3 +55,7 @@ p{
 }
 
 
+/* utility for hover */
+.hover{
+  cursor: pointer;
+} 
