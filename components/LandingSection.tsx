@@ -1,4 +1,4 @@
-import image from '../public/blog.svg'
+import image from '../media/blog.svg'
 
 export default function LandingSection(){
     return(
@@ -13,20 +13,21 @@ export default function LandingSection(){
         <style jsx>{`
             
             h1{
-                margin-bottom:1.25rem;
+                margin-bottom:1.875rem;
             }      
               
             .landing{
+                overflow-x:hidden;
                 max-width: 100vw;
                 min-height: 100vh;
                 background: #2c2c2c;
                 display:grid;
                 grid-template:
-                  "." 10vh
+                  "." 7rem
                   "svgA" auto
-                  "." minmax(2rem,1fr)
+                  "." 4rem
                   "textA" auto
-                  "." minmax(6rem,1fr) / 100vw;
+                  "." 9rem / 100vw;
                 justify-items:center;
             
             }

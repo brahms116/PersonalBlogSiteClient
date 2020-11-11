@@ -3,11 +3,12 @@
 export default function Navigation(){
     return(
         <div>
+          <div className="mobileMenu"></div>
             <nav>
-                <h6 className="hover">DAVID KWONG: BLOG</h6>
+                <h6 className="hover">DAVID: BLOG</h6>
                 <ul className="navlinks">
-                <li className="hover">HOME</li>
-                <li className="hover">ABOUT</li>
+                  <li className="hover">HOME</li>
+                  <li className="hover">ABOUT</li>
                 </ul>
             </nav>
             <style jsx>{`
