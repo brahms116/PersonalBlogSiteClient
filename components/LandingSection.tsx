@@ -23,7 +23,7 @@ export default function LandingSection(){
                 background: #2c2c2c;
                 display:grid;
                 grid-template:
-                  "." 7rem
+                  "." 12rem
                   "svgA" auto
                   "." 4rem
                   "textA" auto
