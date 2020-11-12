@@ -6,7 +6,7 @@ import Layout from "../../layout"
 
 const PostPage = ()=>{
 
-    const router = useRouter()
+    
     return(
         <Layout>
             <div className="post">
