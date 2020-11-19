@@ -1,3 +1,8 @@
+import { useRouter } from "next/router"
+import formatDate from "../formatDate"
+import { PostHeading } from "../interfaces"
+
+
 function Divider(){
     return(
         <div className="divider">
@@ -11,13 +16,17 @@ function Divider(){
         </div>
     )
 }
-export default function Post(){
+export default function Post(props:PostHeading){
+
+    const router = useRouter()
+
+    const handleClick = ()=>router.push(`./posts/${props.id}`)
     return(
         <div>
-            <div className="post hover">
-                <h4>RANDOM POST ABOUT GOD</h4>
-                <sub>2 DAYS AGO</sub>
-                <p>The first place we find the word used in the Bible is in Genesis 14.</p>
+            <div className="post hover" onClick={handleClick}>
+                <h4>{props.title}</h4>
+                <sub>{formatDate(props.createdAt!)}</sub>
+                <p>{props.description}</p>
             </div>
             <Divider></Divider>
             <style jsx>{`

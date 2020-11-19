@@ -10,27 +10,33 @@ export default function Navigation(){
     const menuControl = useAnimation()
     const topBarControl =useAnimation()
     const [menuState,setMenuState] = useState(false)
+    const [isAnimating,setIsAnimating] = useState(false)
     const handleClick = async()=>{
-      if(menuState){
-        window.scrollTo(0,0)
-        await menuControl.start({
-          opacity:0
-        })
-        await topBarControl.start({
-          opacity:1
-        })
-        setMenuState(false)
-      }else{
-        topBarControl.start({
-          opacity:0
-        })
-        await menuControl.start({
-          display:"block",
-        })
-        await menuControl.start({
-          opacity:1
-        })
-        setMenuState(true)
+      if(!isAnimating){
+        setIsAnimating(true)
+        if(menuState){
+          window.scrollTo(0,0)
+          await menuControl.start({
+            opacity:0
+          })
+          await topBarControl.start({
+            opacity:1
+          })
+          setMenuState(false)
+          setIsAnimating(false)
+        }else{
+          topBarControl.start({
+            opacity:0
+          })
+          await menuControl.start({
+            display:"block",
+          })
+          await menuControl.start({
+            opacity:1
+          })
+          setMenuState(true)
+          setIsAnimating(false)
+        }
       }
     }
     return(
@@ -53,14 +59,14 @@ export default function Navigation(){
                           <img onClick={handleClick} src={closeSVG} alt="" className="menubutton"/>
                         </div>
                         <ul className="navLinks">
-                            <li className="hover">HOME</li>
+                            <li className="current">HOME</li>
                             <li className="hover">ABOUT</li>
                         </ul>
                     </div>
                   </motion.div>
                 </div>
                 <ul className="navlinks">
-                  <li className="hover">HOME</li>
+                  <li className="current">HOME</li>
                   <li className="hover">ABOUT</li>
                 </ul>
             </nav>
@@ -120,6 +126,10 @@ export default function Navigation(){
                   .slideMenu .navLinks li{
                     margin:0.5rem 0;
                     font-size:1.5rem;
+                  }
+
+                  .current{
+                    color:#4AA9EE
                   }
           
                   @media(min-width:768px){

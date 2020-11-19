@@ -64,6 +64,39 @@ p{
   line-height: 205%;
 }
 
+/* loading spinner */
+.loader{
+  border: 0.125rem solid #f3f3f3;
+  border-top:0.125rem solid #4AA9EE;
+  border-radius:50%;
+  width:2rem;
+  height:2rem;
+  animation: spin 0.8s linear infinite
+}
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+/* button outline  */
+
+.outlineBtn{
+  display: flex;
+  border: 0.0625rem solid #4AA9ee;
+  color:#4AA9EE
+}
+
+.outlineBtn:hover{
+  background: #4AA9EE;
+  color:#f3f3f3;
+}
+
+.outlineBtn.lg{
+  padding:0.75rem 2rem;
+  font-size: 1.25rem;
+}
+      
+
 
 /* utility for hover */
 .hover{
