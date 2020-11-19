@@ -11,7 +11,6 @@ import {motion,useAnimation} from 'framer-motion'
 export interface indexProps{
   postsData: PostHeading[]
   cursor:string
-  graphqlClient:GraphQLClient
 }
 
 
@@ -45,13 +44,14 @@ export default function Home(props:indexProps) {
         opacity:1,
         transition:{duration:1}
       })
-      console.log(graphqlClient)
+      // console.log(graphqlClient)
       try {
         
-        const res:PostHeadingResponse = await props.graphqlClient.request(postQuery(1,cursor))
+        const res:PostHeadingResponse = await graphqlClient.request(postQuery(1,cursor))
         if(!res.getPostHeadingsByDate.isError){
           setPostHeadings([...postHeadings,...res.getPostHeadingsByDate.posts])
           setCursor(res.getPostHeadingsByDate.cursor)
+          // console.log(cursor)
         }else{
           console.log(res.getPostHeadingsByDate.msg)
         }
@@ -143,7 +143,7 @@ const postQuery = (size?:number,cursor?:string)=>{
 }
 
 export const getStaticProps:GetStaticProps = async(context)=>{
-  console.log(graphqlClient)
+  // console.log(graphqlClient)
   const data:PostHeadingResponse = await graphqlClient.request(postQuery(1))
   if (data.getPostHeadingsByDate.isError) console.log(data.getPostHeadingsByDate.msg)
   return{
