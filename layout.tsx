@@ -1,6 +1,7 @@
 
 import Head from 'next/head'
 import Navigation from './components/Navigation'
+import {motion} from 'framer-motion'
 
 
 interface LayoutProps{
@@ -15,12 +16,19 @@ export default function Layout(props:LayoutProps){
             <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
             <title>My 2cs On Faith</title>
             </Head>
-            <header>
-                <Navigation></Navigation>
-            </header>
+            <motion.div
+                initial={{opacity:0}}
+                animate={{opacity:1}}
+                exit={{opacity:0}}
+                transition={{
+                    duration:1
+                }}
+                >
+            <Navigation></Navigation>
             <main>
                 {props.children}
-            </main>
+            </main>  
+            </motion.div>
         </div>
     )
 }

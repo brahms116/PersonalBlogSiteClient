@@ -2,11 +2,18 @@ import burgerSVG from '../media/Burger.svg'
 import darkBurgerSVG from '../media/BurgerDark.svg'
 import closeSVG from '../media/Close.svg'
 import {motion, useAnimation} from 'framer-motion'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+
+
+
 export default function Navigation(){
     const router= useRouter()
-    const isHome = !router.pathname.includes("posts")
+    // console.log(router.pathname)
+    const isHome = router.pathname==='/'
+    const isPost = router.pathname==='/posts/[id]'
+    const isAbout = router.pathname==='/about'
     const menuControl = useAnimation()
     const topBarControl =useAnimation()
     const [menuState,setMenuState] = useState(false)
@@ -18,6 +25,9 @@ export default function Navigation(){
           window.scrollTo(0,0)
           await menuControl.start({
             opacity:0
+          })
+          await menuControl.start({
+            display:"none"
           })
           await topBarControl.start({
             opacity:1
@@ -58,16 +68,24 @@ export default function Navigation(){
                         <div className="top">
                           <img onClick={handleClick} src={closeSVG} alt="" className="menubutton"/>
                         </div>
-                        <ul className="navLinks">
-                            <li className="current">HOME</li>
-                            <li className="hover">ABOUT</li>
+                        <ul className="navlinks">
+                          {isHome?<li className="current">HOME</li>:
+                            <Link href="/"><li className="hover">HOME</li></Link>
+                          }
+                          {isAbout?<li className="current">ABOUT</li>:
+                            <Link href='/about'><li className="hover">ABOUT</li></Link>
+                          }
                         </ul>
                     </div>
                   </motion.div>
                 </div>
                 <ul className="navlinks">
-                  <li className="current">HOME</li>
-                  <li className="hover">ABOUT</li>
+                          {isHome?<li className="current">HOME</li>:
+                            <Link href="/"><li className="hover">HOME</li></Link>
+                          }
+                          {isAbout?<li className="current">ABOUT</li>:
+                            <Link href='/about'><li className="hover">ABOUT</li></Link>
+                          }
                 </ul>
             </nav>
             <style jsx>{`
@@ -113,7 +131,7 @@ export default function Navigation(){
                     flex-direction:row-reverse;
                   }
 
-                  .slideMenu .navLinks{
+                  .slideMenu .navlinks{
                     width:100%;
                     height:100%;
                     display:none;
@@ -123,9 +141,10 @@ export default function Navigation(){
                     justify-content:center;
                     align-items:center;
                   }
-                  .slideMenu .navLinks li{
+                  .slideMenu .navlinks li{
                     margin:0.5rem 0;
                     font-size:1.5rem;
+                    text-decoration:none;
                   }
 
                   .current{
@@ -137,6 +156,7 @@ export default function Navigation(){
                       display:none;
                     }
                     .navlinks{
+                      list-style:none;
                       display:flex;
                     }
                     .mobileMenu{

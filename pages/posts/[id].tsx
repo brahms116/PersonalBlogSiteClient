@@ -1,30 +1,49 @@
 import { useRouter } from "next/router"
 import Post from "../../components/Post"
 import Layout from "../../layout"
+import {GetStaticPaths, GetStaticProps} from 'next'
+import { graphqlClient } from "../../graphql"
+import { gql } from "graphql-request"
+import { PostDataReponseData, PostPageResponse, PostHeading, PostIdsResponse } from "../../interfaces"
+import formatDate from '../../formatDate'
 
 
+interface PostPageProps extends PostDataReponseData{
+    relevantPosts:PostHeading[]
+}
 
-const PostPage = ()=>{
 
-    
+const PostPage = (props:PostPageProps)=>{
+
+    const link = "https://images.unsplash.com/photo-1476490445914-cc8ed84a4277?ixlib=rb-1.2.1&auto=format&fit=crop&w=1866&q=80"
+    // console.log(props)
     return(
         <Layout>
             <div className="post">
-                <h1>THIS IS MY FIRST POST</h1>
-                <sub>IT WAS CREATED 2 WEEKS AGO, DAVID KWONG</sub>
+                <h1>{props.title?.toUpperCase()}</h1>
+                <sub>{formatDate(props.createdAt!)+", DAVID KWONG"}</sub>
                 <div className="imageContainer">
-                    <img src="https://images.unsplash.com/photo-1582133456397-cb5dc96e9f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1403&q=80" alt="Picture"/>
+                    <img src={props.src?props.src:link} alt="Picture"/>
                 </div>
-                <p>I’m ever so thankful that God placed me on the Amos bus, crawling through the red stained outback of Australia. Through this two week episode, God has really stamped in bold the word “humility” in my mental image of serving God and evangelism. In the past, sinful pride has led me to the paradigm in which I, myself, am responsible for convincing others of the truth of the Gospel. That somehow the existence of a God we can’t even begin to fathom can be proven through rational arguments. That somehow, my knowledge of the Christian faith or my past personal experiences of God can heighten the value of my resume; as if I was a more eligible candidate for God’s mission work! </p>
-                <h2>OTHER RELEVANT POSTS</h2>
-                <Post/>
-                <Post/>
+                {props.para?.map((x,i)=>{return(
+                    <p key={i}>{x}</p>
+                )})}
+                {props.relevantPosts && <h2>OTHER RELEVANT POSTS</h2>}
+                {props.relevantPosts.map((x,i)=>{
+                    return(
+                        <Post {...x} key={i}/>
+                    )
+                })}
             </div>
             
             <style jsx>{`
+                h1{
+                    overflow-wrap:break-word;
+                }
                 h2{
                     margin-top:6rem;
                     margin-bottom:2.8rem;
+                    
                 }
                 img{
                     width:100%;
@@ -39,7 +58,7 @@ const PostPage = ()=>{
                 .imageContainer{
                     margin-top:4.65rem;
                     width:100%;
-                    height:18rem;
+                    max-height:18rem;
                     background:#f9f9f9;
                     overflow:hidden;
                     border-radius:0.3rem;
@@ -52,6 +71,7 @@ const PostPage = ()=>{
                     display:flex;
                     flex-direction:column;
                     width:100%;
+                    overflow-x:hidden;
                 }
                 
                 @media (min-width:768px){
@@ -59,7 +79,7 @@ const PostPage = ()=>{
                         padding: 0 4rem;
                     }
                     .imageContainer{
-                        height:26rem;
+                        max-height:26rem;
                     }
                 }
                 @media (min-width:992px){
@@ -68,7 +88,7 @@ const PostPage = ()=>{
                         width:992px;
                     }
                     .imageContainer{
-                        height:32rem;
+                        max-height:32rem;
                            
                     }
                 }
@@ -78,3 +98,86 @@ const PostPage = ()=>{
 }
 
 export default PostPage
+
+
+
+export const getStaticPaths:GetStaticPaths = async () =>{
+    const query = gql`
+        {
+            AllPostId{
+                isError
+                msg
+                ids
+            }
+        }
+    `
+    const ids:PostIdsResponse = await graphqlClient.request(query)
+    return{
+        paths:ids.AllPostId.ids!.map(x=>({params:{id:x}})),
+        fallback:true
+    }
+}
+
+export const getStaticProps:GetStaticProps = async (context)=>{
+
+    const id = `"${context.params!.id}"`
+
+    const query = gql`
+        {
+            getPostById(id:${id}){
+                isError
+                msg
+                title
+                src
+                description
+                para
+                createdAt
+            }
+            getPostHeadingsByDate(opts:{size:4}){
+                isError
+                msg
+                cursor
+                posts{
+                    id
+                    title
+                    createdAt
+                    description
+                }
+            }
+        }
+    `
+    try {
+        const res:PostPageResponse = await graphqlClient.request(query)
+        console.log(res)
+        const relevantPosts:PostHeading[] =[]
+        if(!res.getPostHeadingsByDate.isError){
+            for(let x of res.getPostHeadingsByDate.posts){
+                if(x.id!==context.params!.id){
+                    relevantPosts.push(x)
+                }
+            }
+        }
+        if(!res.getPostById.isError){
+            return{
+                props:{
+                    title:res.getPostById.title || "Title Missing",
+                    description:res.getPostById.description || "Description Missing",
+                    src:res.getPostById.src,
+                    para:res.getPostById.para || ["Missing Paragraphs"],
+                    createdAt:res.getPostById.createdAt,
+                    relevantPosts:relevantPosts
+                
+                },
+                revalidate:1
+            }
+        }else{
+            throw res.getPostById.msg
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    return{
+        props:{}
+    }
+    
+}

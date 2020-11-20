@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import formatDate from "../formatDate"
 import { PostHeading } from "../interfaces"
+import Link from 'next/link'
 
 
 function Divider(){
@@ -20,14 +21,15 @@ export default function Post(props:PostHeading){
 
     const router = useRouter()
 
-    const handleClick = ()=>router.push(`./posts/${props.id}`)
     return(
         <div>
-            <div className="post hover" onClick={handleClick}>
-                <h4>{props.title}</h4>
-                <sub>{formatDate(props.createdAt!)}</sub>
-                <p>{props.description}</p>
-            </div>
+            <Link href={`./posts/${props.id}`}>            
+                <div className="post hover">
+                    <h4>{props.title?.toUpperCase()}</h4>
+                    <sub>{formatDate(props.createdAt!)+", DAVID KWONG"}</sub>
+                    <p>{props.description}</p>
+                </div>
+            </Link>
             <Divider></Divider>
             <style jsx>{`
             

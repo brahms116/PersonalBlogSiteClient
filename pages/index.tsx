@@ -5,7 +5,7 @@ import { PostHeading,PostHeadingResponse } from '../interfaces'
 import Layout from '../layout'  
 import {graphqlClient} from '../graphql'
 import {gql, GraphQLClient} from 'graphql-request'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {motion,useAnimation} from 'framer-motion'
 
 export interface indexProps{
@@ -21,12 +21,15 @@ export default function Home(props:indexProps) {
   const [cursor,setCursor] = useState(props.cursor)
   const [isAnimating,setIsAnimating] = useState(false)
   const [morePosts,setMorePosts] = useState(!(props.cursor==="LP"))
-
+  
   const loadButtonControl = useAnimation()
   const loaderControl = useAnimation()
-
+  
+  // useEffect(()=>{console.log(`cursor changed to:${cursor}`)},[cursor])
 
   const handleLoading = async()=>{
+    //  console.log(cursor)
+
     if(!isAnimating){
       setIsAnimating(true)
       await loadButtonControl.start({
@@ -49,32 +52,38 @@ export default function Home(props:indexProps) {
         
         const res:PostHeadingResponse = await graphqlClient.request(postQuery(1,cursor))
         if(!res.getPostHeadingsByDate.isError){
-          setPostHeadings([...postHeadings,...res.getPostHeadingsByDate.posts])
           setCursor(res.getPostHeadingsByDate.cursor)
-          // console.log(cursor)
+          setPostHeadings([...postHeadings,...res.getPostHeadingsByDate.posts])
+          // console.log(res.getPostHeadingsByDate.cursor)
+
+          if(res.getPostHeadingsByDate.cursor!=="LP"){
+            await loaderControl.start({
+              opacity:0
+            })
+            await loaderControl.start({
+              display:"none",
+              transition:{duration:0.1}
+            })      
+            await loadButtonControl.start({
+              display:"block",
+              transition:{duration:0.1}
+            })
+            await loadButtonControl.start({
+              opacity:1,
+              transition:{duration:1}
+            })
+          }
+          else{
+            setMorePosts(false)
+          }
         }else{
           console.log(res.getPostHeadingsByDate.msg)
         }
       } catch (error) {
         console.log(error)
       }
-      if(cursor!=="LP"){
-        await loaderControl.start({
-          opacity:0
-        })
-        await loaderControl.start({
-          display:"none",
-          transition:{duration:0.1}
-        })      
-        await loadButtonControl.start({
-          display:"block",
-          transition:{duration:0.1}
-        })
-        await loadButtonControl.start({
-          opacity:1,
-          transition:{duration:1}
-        })
-      }
+      // console.log(cursor)
+     
       setIsAnimating(false)
     }
   }
@@ -150,6 +159,7 @@ export const getStaticProps:GetStaticProps = async(context)=>{
     props:{
       postsData:data.getPostHeadingsByDate.posts,
       cursor:data.getPostHeadingsByDate.cursor,  
-    }
+    },
+    revalidate:1
   }
 }

@@ -1,3 +1,4 @@
+import { graphql } from "graphql"
 
 
 export interface GraphQLResponse{
@@ -13,6 +14,13 @@ export interface PostHeading{
     createdAt?:string
 }
 
+export interface PostIdsResponseData extends GraphQLResponse{
+    ids?:string[]
+}
+
+export interface PostIdsResponse{
+    AllPostId:PostIdsResponseData
+}
 
 export interface PostData extends PostHeading{
     src?:string
@@ -28,4 +36,8 @@ export interface PostHeadingResponse{
     getPostHeadingsByDate:PostHeadingResponseData
 }
 
-export interface PostDataResponse extends GraphQLResponse,PostData{}
+export interface PostDataReponseData extends GraphQLResponse, PostData{}
+
+export interface PostPageResponse extends PostHeadingResponse{
+    getPostById: PostDataReponseData
+}
