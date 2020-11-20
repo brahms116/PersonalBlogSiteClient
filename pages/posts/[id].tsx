@@ -9,7 +9,7 @@ import formatDate from '../../formatDate'
 
 
 interface PostPageProps extends PostDataReponseData{
-    relevantPosts:PostHeading[]
+    relevantPosts?:PostHeading[]
 }
 
 
@@ -29,7 +29,7 @@ const PostPage = (props:PostPageProps)=>{
                     <p key={i}>{x}</p>
                 )})}
                 {props.relevantPosts && <h2>OTHER RELEVANT POSTS</h2>}
-                {props.relevantPosts.map((x,i)=>{
+                {props.relevantPosts?.map((x,i)=>{
                     return(
                         <Post {...x} key={i}/>
                     )
