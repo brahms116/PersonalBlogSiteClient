@@ -148,7 +148,7 @@ export const getStaticProps:GetStaticProps = async (context)=>{
     `
     try {
         const res:PostPageResponse = await graphqlClient.request(query)
-        console.log(res)
+        // console.log(res)
         const relevantPosts:PostHeading[] =[]
         if(!res.getPostHeadingsByDate.isError){
             for(let x of res.getPostHeadingsByDate.posts){

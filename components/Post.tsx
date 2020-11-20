@@ -23,7 +23,7 @@ export default function Post(props:PostHeading){
 
     return(
         <div>
-            <Link href={`./posts/${props.id}`}>            
+            <Link href={`/posts/${props.id}`}>            
                 <div className="post hover">
                     <h4>{props.title?.toUpperCase()}</h4>
                     <sub>{formatDate(props.createdAt!)+", DAVID KWONG"}</sub>
