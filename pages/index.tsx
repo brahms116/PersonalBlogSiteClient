@@ -4,7 +4,7 @@ import PostsSection from '../components/PostsSection'
 import { PostHeading,PostHeadingResponse } from '../interfaces'
 import Layout from '../layout'  
 import {graphqlClient} from '../graphql'
-import {gql, GraphQLClient} from 'graphql-request'
+import {gql} from 'graphql-request'
 import { useEffect, useState } from 'react'
 import {motion,useAnimation} from 'framer-motion'
 
@@ -153,7 +153,7 @@ const postQuery = (size?:number,cursor?:string)=>{
 
 export const getStaticProps:GetStaticProps = async(context)=>{
   // console.log(graphqlClient)
-  const data:PostHeadingResponse = await graphqlClient.request(postQuery(1))
+  const data:PostHeadingResponse = await graphqlClient.request(postQuery(20))
   if (data.getPostHeadingsByDate.isError) console.log(data.getPostHeadingsByDate.msg)
   return{
     props:{

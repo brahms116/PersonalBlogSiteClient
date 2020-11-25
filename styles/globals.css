@@ -64,6 +64,14 @@ p{
   line-height: 205%;
 }
 
+input{
+  font-family: 'Lato', sans-serif;
+}
+
+input:focus{
+  outline:none;
+}
+
 /* loading spinner */
 .loader{
   border: 0.125rem solid #f3f3f3;
@@ -83,7 +91,8 @@ p{
 .outlineBtn{
   display: flex;
   border: 0.0625rem solid #4AA9ee;
-  color:#4AA9EE
+  color:#4AA9EE;
+  justify-content: center;
 }
 
 .outlineBtn:hover{
@@ -95,8 +104,27 @@ p{
   padding:0.75rem 2rem;
   font-size: 1.25rem;
 }
-      
 
+.textInputLabel{
+  font-size:1rem;
+  font-weight:300;
+}
+      
+.textInput{
+  background:none;  
+  border:none;
+  border-bottom: 1px #c4c4c4 solid;
+  color:#f6f6f6;
+  padding:0.625rem 0;
+  font-size:1.125rem;
+  font-weight:300;
+  width:100%;
+}
+
+.helperText{
+  font-size:0.875rem;
+  margin-top:0.6rem;
+}
 
 /* utility for hover */
 .hover{
