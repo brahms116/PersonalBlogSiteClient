@@ -37,6 +37,7 @@ const PostPage = (props:PostPageProps)=>{
             </div>
             
             <style jsx>{`
+
                 h1{
                     overflow-wrap:break-word;
                 }
@@ -54,6 +55,9 @@ const PostPage = (props:PostPageProps)=>{
                 sub{
                     margin-top:1.5rem;
                     padding-left:5px;
+                }
+                p{
+                    margin-bottom:2.5rem;
                 }
                 .imageContainer{
                     margin-top:4.65rem;
@@ -73,6 +77,7 @@ const PostPage = (props:PostPageProps)=>{
                     width:100%;
                     overflow-x:hidden;
                 }
+
                 
                 @media (min-width:768px){
                     .post{
