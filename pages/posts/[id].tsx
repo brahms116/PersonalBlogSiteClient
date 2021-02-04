@@ -173,9 +173,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
   } catch (error) {
     console.log(error);
+    throw error;
   }
-  return {
-    props: {},
-    revalidate: 1,
-  };
 };
