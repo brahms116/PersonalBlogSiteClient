@@ -131,6 +131,15 @@ export default function LandingSection() {
         <img src={image}></img>
       </div>
       <style jsx>{`
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+          border-radius: 0;
+          font-family: "Lato", sans-serif;
+          box-shadow: none;
+          -webkit-box-shadow: 0 0 0px 1000px #2c2c2c inset;
+          -webkit-text-fill-color: #f6f6f6 !important;
+        }
         sub {
           margin-bottom: ${67 / 16}rem;
         }
