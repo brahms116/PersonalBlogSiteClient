@@ -166,7 +166,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
           createdAt: res.getPostById.createdAt,
           relevantPosts: relevantPosts,
         },
-        revalidate: 30,
       };
     } else {
       throw res.getPostById.msg;
