@@ -166,6 +166,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
           createdAt: res.getPostById.createdAt,
           relevantPosts: relevantPosts,
         },
+        revalidate: 1,
       };
     } else {
       throw res.getPostById.msg;
@@ -175,5 +176,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
   return {
     props: {},
+    revalidate: 1,
   };
 };

@@ -159,5 +159,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       postsData: data.getPostHeadingsByDate.posts,
       cursor: data.getPostHeadingsByDate.cursor,
     },
+    revalidate: 1,
   };
 };
