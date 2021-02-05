@@ -14,6 +14,7 @@ interface CreateReaderResponse {
 export default function LandingSection() {
   const [value, setValue] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isSuccess, setIsSucess] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const buttonControl = useAnimation();
@@ -30,6 +31,8 @@ export default function LandingSection() {
   //   console.log(validateEmail("hello@gfmail.com"));
 
   const onSubmit = async () => {
+    setErrorMsg("");
+    setIsSucess(false);
     if (validateEmail(value)) {
       if (!isAnimating) {
         setIsAnimating(true);
@@ -64,7 +67,7 @@ export default function LandingSection() {
           if (result.createReader.isError && result.createReader.msg) {
             setErrorMsg(result.createReader.msg.toUpperCase());
           } else {
-            //success
+            setIsSucess(true);
             setValue("");
           }
         } catch (error) {
@@ -89,6 +92,7 @@ export default function LandingSection() {
         await buttonControl.start({
           opacity: 1,
         });
+
         setIsAnimating(false);
       }
     } else {
@@ -113,6 +117,9 @@ export default function LandingSection() {
               onChange={onChange}
             />
             <div className="helperText">{errorMsg === "" ? "" : errorMsg}</div>
+            {isSuccess && (
+              <div className="successText">YOU HAVE BEEN SUBSCRIBED</div>
+            )}
             <div className="buttonContainer">
               <motion.div animate={buttonControl}>
                 <div className="outlineBtn lg hover" onClick={onSubmit}>
@@ -230,6 +237,10 @@ export default function LandingSection() {
           }
           .buttonContainer {
             width: auto;
+          }
+
+          .successText {
+            color: #4aa9ee;
           }
 
           .inputContainer {
