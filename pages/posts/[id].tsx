@@ -114,7 +114,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const ids: PostIdsResponse = await graphqlClient.request(query);
   return {
     paths: ids.AllPostId.ids!.map((x) => ({ params: { id: x } })),
-    fallback: true,
+    fallback: "blocking",
   };
 };
 
